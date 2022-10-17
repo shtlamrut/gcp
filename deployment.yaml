@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: hello
-          image: <<Your DockerHub Username>>/hello:latest
+          image: devops-practice-277006/sample-app
           imagePullPolicy: Always
           ports:
           - containerPort: 5000
