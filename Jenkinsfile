@@ -9,6 +9,7 @@ pipeline {
             //     command 'sleep'
             //     args 'infinity'
             // }
+		}	
     stages {
         stage("Workspace_cleanup"){
         //Cleaning WorkSpace
@@ -24,3 +25,4 @@ pipeline {
         }
     }
 }
+
