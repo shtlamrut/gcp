@@ -1,12 +1,13 @@
+def PROJECT_ID = 'devops-practice-277006'
+def CLUSTER_NAME = 'inftfy-cluster'
+def LOCATION = 'us-central1'
+def  CREDENTIALS_ID = 'multi-k8s'
+
 pipeline {
     agent {
-        kubernetes {}
-		environment {
-        PROJECT_ID = 'devops-practice-277006'
-        CLUSTER_NAME = 'inftfy-cluster'
-        LOCATION = 'us-central1'
-        CREDENTIALS_ID = 'multi-k8s'
-        } 
+        kubernetes {
+        defaultcontainer 'jnlp'
+		}
     }	
     stages {
         stage("Checkout code") {
