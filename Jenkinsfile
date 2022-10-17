@@ -10,12 +10,19 @@ pipeline {
 		}
     }	
     stages {
-        stage("Checkout code") {
-            steps {
-                checkout scm
+        stage("Workspace_cleanup"){
+        //Cleaning WorkSpace
+            steps{
+               step([$class: 'WsCleanup'])
+            } 
+        }
+		stage('Repo Clone'){
+            steps{
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']],
+                extensions: [], userRemoteConfigs: [[url:'https://github.com/sandeshtamboli123/gcp.git']]])
             }
         }
-        stage("Build image") {
+		stage("Build image") {
             steps {
                 script {
                     myapp = docker.build("devops-practice-277006/sample-app")
@@ -25,7 +32,7 @@ pipeline {
         stage("Push image") {
             steps {
                 script {
-                    docker.withRegistry('https://eu.gcr.io',  'gcr:multi-k8s') {
+                    docker.withRegistry('https://gcr.io',  'gcr:multi-k8s') {
                             myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
                     }
