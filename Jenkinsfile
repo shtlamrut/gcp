@@ -6,7 +6,7 @@ def  CREDENTIALS_ID = 'multi-k8s'
 pipeline {
     agent {
         kubernetes {
-        defaultcontainer 'jnlp'
+        defaultContainer 'jnlp'
 		}
     }	
     stages {
