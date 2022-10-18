@@ -84,8 +84,10 @@ spec:
 			steps{
 			  container ('gcloud') {
 				script{
-                    sh 'gcloud auth activate-service-account --key-file=${env.CREDENTIALS_ID}'
-			    }
+                    withCredentials([file(credentialsId: 'key-sa', variable: 'GC_KEY')]) {
+                      sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
+			       }
+                }
 			  }
 			}
 		}	
