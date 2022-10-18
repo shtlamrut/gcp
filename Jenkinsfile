@@ -1,16 +1,57 @@
 pipeline {
-agent{
-    kubernetes{
-        label 'slave'
-    }
-}
     environment {
         LOCATION = "us-central1"
         PROJECT_ID = "devops-practice-277006"
 		CLUSTER_NAME = 'inftfy-cluster'
         CREDENTIALS_ID = 'multi-k8s'
     }
-
+    agent {
+	  kubernetes {
+		  label 'slave'
+		  defaultContainer 'jnlp'
+		  yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    jenkins/kube-default: true
+    app: jenkins
+    component: agent
+spec:
+  containers:
+  - name: jnlp
+    image: gcr.io/devops-practice-277006/cd-jk-upgrade/cd-jenkins-agent:1.0
+	- sleep
+	tty: true
+  - name: gcloud
+    image: gcr.io/cloud-builders/gcloud
+    command:
+    - cat
+    tty: true
+   - name: kubectl
+    image: gcr.io/cloud-builders/kubectl
+    command:
+    - cat
+    tty: true
+  nodeSelector:
+    jk_role: slave
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: jk_role
+            operator: In
+            values:
+            - slave
+    tolerations:
+    - key: "jk_role"
+      operator: "Exists"
+      effect: "NoSchedule"
+"""
+}
+  }
+	  
     stages{
 		stage('Repo Clone'){
             steps{
@@ -21,13 +62,15 @@ agent{
         
         stage("Building Application Docker Image"){
             steps{
+			  container ('gcloud') { 
                 script{
                     sh 'gcloud auth configure-docker'
                     sh 'docker build -t sample-app .'
 					sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/demo-app/sample-app'
                 }
+              }
             }
-        }
+		}
 
         stage("Pushing Application Docker Image to Google Artifact Registry"){
             steps{
