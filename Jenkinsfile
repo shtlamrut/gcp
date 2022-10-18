@@ -13,10 +13,15 @@ pipeline {
 	}  
 	  
     stages{
-		stage('Repo Clone'){
+		stage("git checkout"){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']],
-                extensions: [], userRemoteConfigs: [[url:'https://github.com/sandeshtamboli123/gcp.git']]])
+                script{
+        git(
+            url: 'https://github.com/sandeshtamboli123/gcp.git',
+            credentialsId: 'jenkins-github',
+            branch: 'main'
+            )
+                }
             }
         }
         
