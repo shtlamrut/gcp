@@ -8,45 +8,8 @@ pipeline {
     agent {
 	  kubernetes {
 		  label 'slave'
-		  defaultContainer 'jnlp'
-		  yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    jenkins/kube-default: true
-    app: jenkins
-    component: agent
-spec:
-  containers:
-  - name: gcloud
-    image: gcr.io/cloud-builders/gcloud
-    command:
-    - cat
-    tty: true
-  - name: kubectl
-    image: gcr.io/cloud-builders/kubectl
-    command:
-    - cat
-    tty: true
-  nodeSelector:
-    jk_role: slave
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: jk_role
-            operator: In
-            values:
-            - slave
-    tolerations:
-    - key: "jk_role"
-      operator: "Exists"
-      effect: "NoSchedule"
-"""
-    }
-  }
+      }
+	}  
 	  
     stages{
 		stage('Repo Clone'){
