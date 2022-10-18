@@ -29,13 +29,6 @@ spec:
     command:
     - cat
     tty: true
-  - name: docker
-    image: docker:19.03.1
-    command:     
-    - cat
-    volumeMounts:
-    - name: docker-socket
-      mountPath: /var/run
   nodeSelector:
     jk_role: slave
   affinity:
