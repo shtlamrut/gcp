@@ -94,11 +94,11 @@ spec:
 			  container ('docker') {
 				script{
 					myapp = docker.build("gcr.io/devops-practice-277006/cd-jk-upgrade/hello:${env.BUILD_ID}")
-
-                }
-              }
-            }
-        }
+                }   
+              }  
+            }  
+        }   
+        
         stage("Push image") {
             steps {
                 script {
