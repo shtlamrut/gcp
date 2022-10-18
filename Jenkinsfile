@@ -87,18 +87,11 @@ spec:
 				script{
 					sh 'docker build -t sample-app .'
                     sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app'
+					sh 'docker push gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app'
+
                 }
               }
             }
-        }
-        stage("Pushing Application Docker Image to Google Artifact Registry"){
-            steps{
-			  container ('docker') {
-                script{
-                    sh 'docker push gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app'
-                }
-			  }	
-            } 
         }
 
         stage("Application Deployment on Google Kubernetes Engine"){
