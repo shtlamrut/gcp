@@ -33,8 +33,6 @@ spec:
     image: docker:19.03.1
     command:     
     - cat
-	args:
-    - 99d
     volumeMounts:
     - name: docker-socket
       mountPath: /var/run
