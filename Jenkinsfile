@@ -93,15 +93,22 @@ spec:
 			steps{
 			  container ('docker') {
 				script{
-					sh 'docker build -t sample-app .'
-                    sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app:${BUILD_NUMBER}'
-					sh 'docker push gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app:${BUILD_NUMBER}'
+					myapp = docker.build("gcr.io/devops-practice-277006/cd-jk-upgrade/hello:${env.BUILD_ID}")
 
                 }
               }
             }
         }
-
+        stage("Push image") {
+            steps {
+                script {
+                    docker.withRegistry('https://gcr.io', 'multi-k8s') {
+                            myapp.push("latest")
+                            myapp.push("${env.BUILD_ID}")
+                    }
+                }
+            }
+        }        
         stage("Application Deployment on Google Kubernetes Engine"){
             steps{
                 script{
