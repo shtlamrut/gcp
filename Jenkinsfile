@@ -77,7 +77,7 @@ spec:
 			  container ('docker') {
 				script{
 					sh 'docker build -t sample-app .'
-                    sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/demo-app/sample-app'
+                    sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app'
                 }
               }
             }
