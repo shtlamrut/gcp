@@ -78,7 +78,17 @@ spec:
               }
             }
 		}
-
+         
+		stage("docker image building"){
+			steps{
+			  container ('docker') {
+				script{
+					sh 'docker build -t sample-app .'
+                    sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/demo-app/sample-app'
+                }
+              }
+            }
+        }
         stage("Pushing Application Docker Image to Google Artifact Registry"){
             steps{
                 script{
