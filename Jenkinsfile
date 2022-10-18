@@ -93,10 +93,12 @@ spec:
         }
         stage("Pushing Application Docker Image to Google Artifact Registry"){
             steps{
+			  container ('docker') {
                 script{
                     sh 'docker push gcr.io/${env.PROJECT_ID}/demo-app/sample-app'
                 }
-			}	
+			  }	
+            } 
         }
 
         stage("Application Deployment on Google Kubernetes Engine"){
