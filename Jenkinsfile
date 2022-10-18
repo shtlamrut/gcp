@@ -62,33 +62,52 @@ spec:
             }
         }
         
-        stage("Building Application Docker Image"){
-            steps{
-			  container ('gcloud') { 
-                script{
-                    sh 'gcloud auth configure-docker'
+       stage("Build image") {
+            steps {
+                script {
+                    myapp = docker.build("devops-practice-277006/sample-app")
                 }
-              }
-            }
-		}
-         
-		stage("docker image building"){
-			steps{
-			  container ('docker') {
-				script{
-					sh 'docker build -t sample-app .'
-                    sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app'
-                }
-              }
             }
         }
-        stage("Pushing Application Docker Image to Google Artifact Registry"){
-            steps{
-                script{
-                    sh 'docker push gcr.io/${env.PROJECT_ID}/demo-app/sample-app'
+        stage("Push image") {
+            steps {
+                script {
+                    docker.withRegistry('https://gcr.io',  'gcr:multi-k8s') {
+                            myapp.push("latest")
+                            myapp.push("${env.BUILD_ID}")
+                    }
                 }
-			}	
+            }
         }
+
+
+#        stage("Building Application Docker Image"){
+#            steps{
+#			  container ('gcloud') { 
+#                script{
+#                    sh 'gcloud auth configure-docker'
+#                }
+#              }
+#            }
+#		}
+#         
+#		stage("docker image building"){
+#			steps{
+#			  container ('docker') {
+#				script{
+#					sh 'docker build -t sample-app .'
+#                    sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app'
+#                }
+#              }
+#            }
+#        }
+#        stage("Pushing Application Docker Image to Google Artifact Registry"){
+#            steps{
+#                script{
+#                    sh 'docker push gcr.io/${env.PROJECT_ID}/demo-app/sample-app'
+#                }
+#			}	
+#        }
 
         stage("Application Deployment on Google Kubernetes Engine"){
             steps{
