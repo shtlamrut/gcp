@@ -95,7 +95,7 @@ spec:
             steps{
 			  container ('docker') {
                 script{
-                    sh 'docker push gcr.io/${env.PROJECT_ID}/demo-app/sample-app'
+                    sh 'docker push gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app'
                 }
 			  }	
             } 
