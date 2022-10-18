@@ -50,7 +50,7 @@ spec:
       operator: "Exists"
       effect: "NoSchedule"
 """
-}
+    }
   }
 	  
     stages{
