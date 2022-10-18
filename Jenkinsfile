@@ -8,6 +8,7 @@ pipeline {
     agent {
 	  kubernetes {
 		  label 'slave'
+		  defaultContainer 'jnlp'
       }
 	}  
 	  
