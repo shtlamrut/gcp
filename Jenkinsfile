@@ -85,6 +85,7 @@ spec:
 			  container ('gcloud') {
 				script{
 					sh 'gcloud auth configure-docker'
+                    sh 'gcloud auth activate-service-account --key-file ${env.CREDENTIALS_ID}'
 			    }
 			  }
 			}
