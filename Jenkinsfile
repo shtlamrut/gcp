@@ -2,7 +2,7 @@ pipeline {
     environment {
         LOCATION = "us-central1"
         PROJECT_ID = "devops-practice-277006"
-		CLUSTER_NAME = 'inftfy-cluster'
+		CLUSTER_NAME = 'cadent-jenkins-poc-cluster'
         CREDENTIALS_ID = 'multi-k8s'
     }
     agent {
@@ -80,7 +80,15 @@ spec:
                 }
             }
         }
-         
+        stage("gcloud with docker"){
+			steps{
+			  container ('gcloud') {
+				script{
+					sh 'gcloud auth configure-docker'
+			    }
+			  }
+			}
+		}	
 		stage("docker image building"){
 			steps{
 			  container ('docker') {
@@ -98,8 +106,7 @@ spec:
             steps{
                 script{
                     sh "gcloud container clusters get-credentials app-cluster --zone ${env.ZONE} --project ${env.PROJECT_ID}"
-                    sh 'kubectl apply -f manifests/.'
-					step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+                    sh 'kubectl apply -f deployment.yaml'
                 }
             }
         }
