@@ -94,8 +94,8 @@ spec:
 			  container ('docker') {
 				script{
 					sh 'docker build -t sample-app .'
-                    sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app'
-					sh 'docker push gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app'
+                    sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app:${BUILD_NUMBER}'
+					sh 'docker push gcr.io/${env.PROJECT_ID}/cd-jk-upgrade/sample-app:${BUILD_NUMBER}'
 
                 }
               }
