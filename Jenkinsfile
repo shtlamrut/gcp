@@ -18,9 +18,6 @@ metadata:
     app: jenkins
     component: agent
 spec:
-  volumes:
-  - name: docker-socket
-    emptyDir: {}
   containers:
   - name: gcloud
     image: gcr.io/cloud-builders/gcloud
@@ -38,13 +35,6 @@ spec:
     - cat
 	args:
     - 99d
-    volumeMounts:
-    - name: docker-socket
-      mountPath: /var/run
-  - name: docker-daemon
-    image: docker:19.03.1-dind
-    securityContext:
-      privileged: true
     volumeMounts:
     - name: docker-socket
       mountPath: /var/run
@@ -86,8 +76,6 @@ spec:
 			  container ('gcloud') { 
                 script{
                     sh 'gcloud auth configure-docker'
-                    sh 'docker build -t sample-app .'
-					sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/demo-app/sample-app'
                 }
               }
             }
