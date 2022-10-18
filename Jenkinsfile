@@ -29,6 +29,11 @@ spec:
     command:
     - cat
     tty: true
+  - name: docker
+    image: gcr.io/cloud-builders/gcloud
+	command:
+	- cat
+	tty: true
   nodeSelector:
     jk_role: slave
   affinity:
