@@ -1,15 +1,17 @@
-def PROJECT_ID = 'devops-practice-277006'
-def CLUSTER_NAME = 'inftfy-cluster'
-def LOCATION = 'us-central1'
-def  CREDENTIALS_ID = 'multi-k8s'
-
 pipeline {
-    agent {
-        kubernetes {
-        defaultContainer 'jnlp'
-		}
-    }	
-    stages {
+agent{
+    kubernetes{
+        label 'slave'
+    }
+}
+    environment {
+        LOCATION = "us-central1"
+        PROJECT_ID = "devops-practice-277006"
+		CLUSTER_NAME = 'inftfy-cluster'
+        CREDENTIALS_ID = 'multi-k8s'
+    }
+
+    stages{
         stage("Workspace_cleanup"){
         //Cleaning WorkSpace
             steps{
@@ -22,32 +24,33 @@ pipeline {
                 extensions: [], userRemoteConfigs: [[url:'https://github.com/sandeshtamboli123/gcp.git']]])
             }
         }
-		stage("Build image") {
-            steps {
-                script {
-                    myapp = docker.build("devops-practice-277006/sample-app")
-                }
-            }
-        }
-        stage("Push image") {
-            steps {
-                script {
-                    docker.withRegistry('https://gcr.io',  'gcr:multi-k8s') {
-                            myapp.push("latest")
-                            myapp.push("${env.BUILD_ID}")
-                    }
-                }
-            }
-        }        
-        stage('Deploy to GKE') {
+        
+        stage("Building Application Docker Image"){
             steps{
-                sh "kubectl apply -f  deployment.yaml"
-                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+                script{
+                    sh 'gcloud auth configure-docker'
+                    sh 'docker build -t sample-app .'
+					sh 'docker tag sample-app gcr.io/${env.PROJECT_ID}/demo-app/sample-app'
+                }
             }
         }
-    }    
-}    
 
+        stage("Pushing Application Docker Image to Google Artifact Registry"){
+            steps{
+                script{
+                    sh 'docker push gcr.io/${env.PROJECT_ID}/demo-app/sample-app'
+                }
+			}	
+        }
 
-   
-
+        stage("Application Deployment on Google Kubernetes Engine"){
+            steps{
+                script{
+                    sh "gcloud container clusters get-credentials app-cluster --zone ${env.ZONE} --project ${env.PROJECT_ID}"
+                    sh 'kubectl apply -f manifests/.'
+					step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+                }
+            }
+        }
+    }
+}
