@@ -21,6 +21,7 @@ spec:
   containers:
   - name: jnlp
     image: gcr.io/devops-practice-277006/cd-jk-upgrade/cd-jenkins-agent:1.0
+	command:
 	- sleep
 	tty: true
   - name: gcloud
