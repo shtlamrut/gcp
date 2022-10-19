@@ -74,7 +74,7 @@ spec:
                 script{
         git(
             url: 'https://github.com/sandeshtamboli123/gcp.git',
-            credentialsId: 'jenkins-github-new',
+            credentialsId: 'github-pat-sandesh',
             branch: 'main'
             )
                 }
