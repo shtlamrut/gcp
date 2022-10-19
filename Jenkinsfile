@@ -86,8 +86,7 @@ spec:
 				script{
                     withCredentials([file(credentialsId: 'key-jenkins', variable: 'GC_KEY')]) {
                       sh("gcloud auth activate-service-account 809054428464-compute@developer.gserviceaccount.com --key-file=${GC_KEY}")
-					  sh("gcloud projects add-iam-policy-binding devops-practice-277006 --member=serviceAccount:Compute Engine default service account@devops-practice-277006.iam.gserviceaccount.com --role=roles/storage.admin")
-					 sh("gcloud auth configure-docker")
+					  sh("gcloud auth configure-docker")
 			       }
                 }
 			  }			}
