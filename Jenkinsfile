@@ -84,7 +84,7 @@ spec:
 			steps{
 			  container ('gcloud') {
 				script{
-                    withCredentials([file(credentialsId: 'default-compute-sa-devops-practice', variable: 'GC_KEY')]) {
+                    withCredentials([file(credentialsId: 'default-compute-sa-devops-practice-secretfile', variable: 'GC_KEY')]) {
                       sh("gcloud auth activate-service-account 809054428464-compute@developer.gserviceaccount.com --key-file=${GC_KEY}")
 					  sh("gcloud auth configure-docker")
 			       }
