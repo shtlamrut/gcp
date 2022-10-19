@@ -85,7 +85,7 @@ spec:
 			  container ('gcloud') {
 				script{
                     withCredentials([file(credentialsId: 'key-jenkins', variable: 'GC_KEY')]) {
-                      sh("gcloud auth activate-service-account Compute Engine default service account --key-file=${GC_KEY}")
+                      sh("gcloud auth activate-service-account 809054428464-compute@developer.gserviceaccount.com --key-file=${GC_KEY}")
 					  sh("gcloud auth configure-docker")
 			       }
                 }
