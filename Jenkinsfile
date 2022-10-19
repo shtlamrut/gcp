@@ -84,7 +84,7 @@ spec:
 			steps{
 			  container ('gcloud') {
 				script{
-                    withCredentials([file(credentialsId: 'key-sa', variable: 'GC_KEY')]) {
+                    withCredentials([file(credentialsId: 'key-jenkins', variable: 'GC_KEY')]) {
                       sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
 			       }
                 }
@@ -103,11 +103,13 @@ spec:
         } 
         stage("Application Deployment on Google Kubernetes Engine"){
             steps{
+			  container ('gcloud') {
                 script{
-                    sh "gcloud container clusters get-credentials app-cluster --zone ${env.ZONE} --project ${env.PROJECT_ID}"
+					sh "gcloud container clusters get-credentials cadent-jenkins-poc-cluster --region ${LOCATION} --project ${PROJECT_ID}"
                     sh 'kubectl apply -f deployment.yaml'
                 }
+              }
             }
-        }
+     	}
     }
 }
