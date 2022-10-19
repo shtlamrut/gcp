@@ -3,7 +3,7 @@ pipeline {
         LOCATION = "us-central1"
         PROJECT_ID = "devops-practice-277006"
 		CLUSTER_NAME = 'cadent-jenkins-poc-cluster'
-        ACCOUNT = 'reporter-cluster-1@devops-practice-277006.iam.gserviceaccount.com'
+        ACCOUNT = '809054428464-compute@developer.gserviceaccount.com'
     }
     agent {
 	  kubernetes {
@@ -84,8 +84,8 @@ spec:
 			steps{
 			  container ('gcloud') {
 				script{
-                    withCredentials([file(credentialsId: 'devops-practise', variable: 'GC_KEY')]) {
-                      sh("gcloud auth activate-service-account reporter-cluster-1@devops-practice-277006.iam.gserviceaccount.com --key-file=${GC_KEY}")
+                    withCredentials([file(credentialsId: 'key-jenkins', variable: 'GC_KEY')]) {
+                      sh("gcloud auth activate-service-account 809054428464-compute@developer.gserviceaccount.com --key-file=${GC_KEY}")
 					  sh("gcloud auth configure-docker")
 			       }
                 }
