@@ -19,6 +19,8 @@ metadata:
     component: agent
 spec:
   volumes:
+    - name: sharedvolume
+      emptyDir: {}
     - name: docker-socket
       emptyDir: {}
   containers:
