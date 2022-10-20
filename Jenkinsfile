@@ -89,7 +89,7 @@ spec:
                 }
             }
         }
-        stage("gcloud with docker configure"){
+        stage("gcloud with docker configured"){
 			steps{
 			  container ('gcloud') {
 				script{
