@@ -19,6 +19,8 @@ metadata:
     component: agent
 spec:
   volumes:
+  - name: sharedvolume
+    emptyDir: {}
   - name: docker-socket
     emptyDir: {}
   containers:
@@ -27,6 +29,9 @@ spec:
     command:
     - cat
     tty: true
+	volumeMounts:
+    - name: sharedvolume
+      mountPath: /root/.docker
   - name: kubectl
     image: gcr.io/cloud-builders/kubectl
     command:
@@ -41,13 +46,17 @@ spec:
     volumeMounts:
     - name: docker-socket
       mountPath: /var/run
+	- name: sharedvolume
+      mountPath: /root/.docker  
   - name: docker-daemon
     image: docker:19.03.1-dind
     securityContext:
       privileged: true
     volumeMounts:
     - name: docker-socket
-      mountPath: /var/run	
+      mountPath: /var/run
+	- name: sharedvolume
+      mountPath: /root/.docker  
   nodeSelector:
     jk_role: slave
   affinity:
@@ -96,6 +105,7 @@ spec:
 			  container ('docker') {
 				script{
 					sh 'docker build -t gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app .'
+					sh 'sleep 3m'
 					sh 'docker push gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app'
 				}
               }
