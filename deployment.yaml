@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: hello
-          image: gcr.io/devops-practice-277006/demo-app/sample-app     
+          image: gcr.io/devops-practice-277006/cd-jk-upgrade/sample-app     
           imagePullPolicy: Always
           ports:
           - containerPort: 5000
