@@ -19,8 +19,8 @@ metadata:
     component: agent
 spec:
   volumes:
-  - name: docker-socket
-    emptyDir: {}
+    - name: docker-socket
+      emptyDir: {}
   containers:
   - name: gcloud
     image: gcr.io/cloud-builders/gcloud
