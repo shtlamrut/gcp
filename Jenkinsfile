@@ -56,7 +56,7 @@ spec:
     - name: docker-socket
       mountPath: /var/run
 	- name: sharedvolume
-      mountPath: /root/.docker  
+      mountPath: /root/.docker   
   nodeSelector:
     jk_role: slave
   affinity:
@@ -89,7 +89,7 @@ spec:
                 }
             }
         }
-        stage("gcloud with docker configured"){
+        stage("gcloud with docker configure"){
 			steps{
 			  container ('gcloud') {
 				script{
