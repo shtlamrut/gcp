@@ -17,7 +17,7 @@ metadata:
     jenkins/kube-default: true
     app: jenkins
     component: agent
-spec:
+ spec:
   volumes:
   - name: sharedvolume
     emptyDir: {}
@@ -29,7 +29,7 @@ spec:
     command:
     - cat
     tty: true
-	volumeMounts:
+    volumeMounts:
     - name: sharedvolume
       mountPath: /root/.docker
   - name: kubectl
@@ -46,7 +46,7 @@ spec:
     volumeMounts:
     - name: docker-socket
       mountPath: /var/run
-	- name: sharedvolume
+    - name: sharedvolume
       mountPath: /root/.docker  
   - name: docker-daemon
     image: docker:19.03.1-dind
@@ -55,8 +55,8 @@ spec:
     volumeMounts:
     - name: docker-socket
       mountPath: /var/run
-	- name: sharedvolume
-      mountPath: /root/.docker   
+    - name: sharedvolume
+      mountPath: /root/.docker 
   nodeSelector:
     jk_role: slave
   affinity:
