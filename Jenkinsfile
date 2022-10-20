@@ -110,19 +110,11 @@ spec:
 			  container ('docker') {
 				script{
 					sh 'docker build -t gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app .'
+					sh 'docker push gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app'
 				}
               }
             }
         } 
-        stage("image push to gcr"){
-			steps{
-			  container ('gcloud') {
-				script{
-					sh 'gcloud docker -- push gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app'
-                }
-              }
-            }
-		}	
         stage("Application Deployment on Google Kubernetes Engine"){
             steps{
 			  container ('gcloud') {
