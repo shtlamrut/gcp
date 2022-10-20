@@ -17,7 +17,7 @@ metadata:
     jenkins/kube-default: true
     app: jenkins
     component: agent
- spec:
+spec:
   volumes:
   - name: sharedvolume
     emptyDir: {}
@@ -77,18 +77,18 @@ metadata:
       }
 	}  
 	  
-    stages{
+  stages{
 		stage("git checkout"){
-            steps{
-                script{
-        git(
-            url: 'https://github.com/sandeshtamboli123/gcp.git',
-            credentialsId: 'github-pat-sandesh',
-            branch: 'main'
-            )
-                }
-            }
+      steps{
+        script{
+      git(
+        url: 'https://github.com/sandeshtamboli123/gcp.git',
+        credentialsId: 'github-pat-sandesh',
+        branch: 'main'
+        )
         }
+      } 
+   }
         stage("gcloud with docker configure"){
 			steps{
 			  container ('gcloud') {
