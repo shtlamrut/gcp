@@ -95,7 +95,7 @@ spec:
 				script{
                     withCredentials([file(credentialsId: 'cadent-jenkins-poc-cluster-sa-secretfile', variable: 'GC_KEY')]) {
                       sh("gcloud auth activate-service-account 809054428464-compute@developer.gserviceaccount.com --key-file=${GC_KEY}")
-					  sh("gcloud auth configure-docker -q")
+					  sh("gcloud auth configure-docker gcr.io")
 			       }
                 }
               } 
