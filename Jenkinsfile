@@ -105,7 +105,7 @@ spec:
 			  container ('docker') {
 				script{
 					sh 'docker build -t gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app .'
-					sh 'sleep 3m'
+					sh 'sleep 10m'
 					sh 'docker push gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app'
 				}
               }
