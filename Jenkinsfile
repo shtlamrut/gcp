@@ -80,15 +80,6 @@ spec:
                 }
             }
         }
-        stage("docker permission"){
-            steps{
-		      container ('docker') {
-                script{
-					sh("usermod -a -G docker ${USER}")
-			    }		
-              }
-			}  
-        }
         stage("gcloud with docker"){
 			steps{
 			  container ('gcloud') {
