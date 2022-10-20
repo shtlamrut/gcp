@@ -80,7 +80,7 @@ spec:
                 }
             }
         }
-        stage("gcloud with docker"){
+        stage("docker permission"){
             steps{
 		      container ('docker') {
                 script{
