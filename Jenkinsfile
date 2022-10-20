@@ -18,6 +18,7 @@ metadata:
     app: jenkins
     component: agent
 spec:
+
   volumes:
   - name: sharedvolume
     emptyDir: {}
