@@ -114,7 +114,7 @@ spec:
 			steps{
 			  container ('gcloud') {
 				script{
-					sh 'gcloud docker --push gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app'
+					sh 'gcloud docker -- push gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app'
                 }
               }
             }
