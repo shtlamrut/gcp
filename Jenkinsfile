@@ -92,7 +92,7 @@ spec:
         
         stage("Fix the permission issue") {
             steps {
-                sh "chown root:jenkins /var/run/docker.sock"
+                sh "chown root:jenkins /root/.docker/"
             }
         }
         stage("gcloud with docker configure"){
