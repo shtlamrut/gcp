@@ -32,6 +32,8 @@ spec:
     volumeMounts:
     - name: sharedvolume
       mountPath: /root/.docker
+    - name: docker-socket
+      mountPath: /var/run
   - name: kubectl
     image: gcr.io/cloud-builders/kubectl
     command:
