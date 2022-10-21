@@ -98,7 +98,7 @@ spec:
 			  container ('gcloud') {
 				script{
                     withCredentials([file(credentialsId: 'cadent-jenkins-poc-cluster-sa-secretfile', variable: 'GC_KEY')]) {
-                      sh("gcloud auth activate-service-account 809054428464-compute@developer.gserviceaccount.com --key-file=${GC_KEY}")
+                      sh("gcloud auth activate-service-account reporter-cluster-1@devops-practice-277006.iam.gserviceaccount.com --key-file=${GC_KEY}")
 					  sh("gcloud auth configure-docker")
 					  sh 'docker build -t gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app .'
 					  sh 'docker push gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app'
