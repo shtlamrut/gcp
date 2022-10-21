@@ -100,21 +100,13 @@ spec:
                     withCredentials([file(credentialsId: 'cadent-jenkins-poc-cluster-sa-secretfile', variable: 'GC_KEY')]) {
                       sh("gcloud auth activate-service-account 809054428464-compute@developer.gserviceaccount.com --key-file=${GC_KEY}")
 					  sh("gcloud auth configure-docker")
+					  sh 'docker build -t gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app .'
+					  sh 'docker push gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app'
 			       }
                 }
               } 
 		    }			
 		}	
-		stage("docker image building"){
-			steps{
-			  container ('docker') {
-				script{
-					sh 'docker build -t gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app .'
-					sh 'docker push gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app'
-				}
-              }
-            }
-        } 
         stage("Application Deployment on Google Kubernetes Engine"){
             steps{
 			  container ('gcloud') {
