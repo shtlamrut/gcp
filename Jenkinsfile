@@ -90,18 +90,13 @@ spec:
       } 
    }
         
-        stage("Fix the permission issue") {
-            steps {
-                sh "chown root:jenkins /root/.docker/"
-            }
-        }
         stage("gcloud with docker configure"){
 			steps{
 			  container ('gcloud') {
 				script{
                     withCredentials([file(credentialsId: 'cadent-jenkins-poc-cluster-sa-secretfile', variable: 'GC_KEY')]) {
                       sh("gcloud auth activate-service-account 809054428464-compute@developer.gserviceaccount.com --key-file=${GC_KEY}")
-					  sh("sudo -s gcloud auth configure-docker")
+					  sh("gcloud auth configure-docker")
 			       }
                 }
               } 
@@ -112,6 +107,7 @@ spec:
 			  container ('docker') {
 				script{
 					sh 'docker build -t gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app .'
+					sh 'sleep 5m'
 					sh 'docker push gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app'
 				}
               }
