@@ -57,6 +57,7 @@ spec:
       mountPath: /var/run
     - name: sharedvolume
       mountPath: /root/.docker 
+  serviceAccountName: "cd-jenkins"    
   nodeSelector:
     jk_role: slave
   affinity:
@@ -107,7 +108,6 @@ spec:
 			  container ('docker') {
 				script{
 					sh 'docker build -t gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app .'
-					sh 'sleep 10m'
 					sh 'docker push gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app'
 				}
               }
