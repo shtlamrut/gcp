@@ -25,7 +25,7 @@ spec:
     emptyDir: {}
   containers:
   - name: gcloud
-    image: gcr.io/cloud-builders/gcloud
+    image: google/cloud-sdk:latest
     command:
     - cat
     tty: true
