@@ -6,7 +6,7 @@ pipeline {
         ACCOUNT = '809054428464-compute@developer.gserviceaccount.com'
     }
     agent {
-	  kubernetes {
+	  gke-cluster {
 		  label 'slave'
 		  defaultContainer 'jnlp'
 		  yaml '''
@@ -59,23 +59,6 @@ spec:
       mountPath: /var/run
     - name: sharedvolume
       mountPath: /root/.docker 
-  serviceAccountName: "cd-jenkins"    
-  nodeSelector:
-    jk_role: slave
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: jk_role
-            operator: In
-            values:
-            - slave
-  tolerations:
-  - key: "jk_role"
-    operator: "Equal"
-    value: "slave"
-    effect: "NoSchedule"
 '''
       }
 	}  
