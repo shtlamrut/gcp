@@ -86,7 +86,7 @@ spec:
         script{
       git(
         url: 'https://github.com/sandeshtamboli123/gcp.git',
-        credentialsId: 'github-pat-sandesh',
+        credentialsId: 'sandesh-github-pat',
         branch: 'main'
         )
         }
@@ -97,7 +97,7 @@ spec:
 			steps{
 			  container ('gcloud') {
 				script{
-                    withCredentials([file(credentialsId: 'cadent-jenkins-poc-cluster-sa-secretfile', variable: 'GC_KEY')]) {
+                    withCredentials([file(credentialsId: 'jenkins-sa-devops-practice-secretfile', variable: 'GC_KEY')]) {
                       sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
 					  sh("gcloud auth configure-docker")
 					  sh 'docker build -t gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app .'
