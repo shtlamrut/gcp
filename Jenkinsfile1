@@ -1,12 +1,12 @@
 pipeline {
     environment {
-        LOCATION = "us-central1"
-        PROJECT_ID = "devops-practice-277006"
-		CLUSTER_NAME = 'cadent-jenkins-poc-cluster'
+        LOCATION = "us-central1-b"
+        PROJECT_ID = "datametica-op"
+		CLUSTER_NAME = 'demo-deploy-cluster'
         ACCOUNT = '809054428464-compute@developer.gserviceaccount.com'
     }
     agent {
-	  gke-cluster {
+	  kubernetes {
 		  label 'slave'
 		  defaultContainer 'jnlp'
 		  yaml '''
@@ -80,7 +80,7 @@ spec:
 			steps{
 			  container ('gcloud') {
 				script{
-                    withCredentials([file(credentialsId: 'jenkins-sa-devops-practice-secretfile', variable: 'GC_KEY')]) {
+                    withCredentials([file(credentialsId: 'jenkins-sa-target-project-secretfile', variable: 'GC_KEY')]) {
                       sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
 					  sh("gcloud auth configure-docker")
 					  sh 'docker build -t gcr.io/${PROJECT_ID}/cd-jk-upgrade/sample-app .'
