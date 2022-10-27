@@ -94,7 +94,7 @@ spec:
             steps{
 			  container ('gcloud') {
                 script{
-					sh "gcloud container clusters get-credentials cadent-jenkins-poc-cluster --region ${LOCATION} --project ${PROJECT_ID}"
+					sh "gcloud container clusters get-credentials demo-deploy-cluster --region ${LOCATION} --project ${PROJECT_ID}"
                     sh 'kubectl apply -f deployment.yaml'
                 }
               }
