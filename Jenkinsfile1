@@ -6,7 +6,7 @@ pipeline {
         ACCOUNT = '809054428464-compute@developer.gserviceaccount.com'
     }
     agent {
-	  kubernetes(name: 'gke-cluster') {
+	  kubernetes (name: 'gke-cluster') {
 		  label 'slave'
 		  defaultContainer 'jnlp'
 		  yaml '''
