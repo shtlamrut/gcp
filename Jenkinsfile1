@@ -25,6 +25,11 @@ spec:
   - name: docker-socket
     emptyDir: {}
   containers:
+  - name: jnlp
+    image: gcr.io/devops-practice-277006/cd-jk-upgrade/cd-jenkins-agent:2.0
+    command:
+    - cat
+    tty: true
   - name: gcloud
     image: google/cloud-sdk:latest
     command:
