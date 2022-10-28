@@ -7,7 +7,7 @@ pipeline {
     }
     agent {
    	  kubernetes {
-		  name 'gke-cluster'
+		  cloud 'gke-cluster'
 		  label 'slave'
 		  defaultContainer 'jnlp'
 		  yaml '''
