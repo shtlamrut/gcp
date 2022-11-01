@@ -31,13 +31,15 @@ pipeline {
         
         stage('Vault') {
             steps {
+			  container('jnlp') {	
                 withVault([configuration: configuration, vaultSecrets: secrets]) {
                   sh "echo ${env.USERNAME}"
                   sh "echo ${env.PASSWORD}"
                   
                 }
-            }  
-        }
+              } 
+            }
+		}	
     }    
 }
 
