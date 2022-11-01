@@ -35,7 +35,7 @@ pipeline {
                 withVault([configuration: configuration, vaultSecrets: secrets]) {
                   sh "echo ${env.USERNAME}"
                   sh "echo ${env.PASSWORD}"
-                  
+                  sh "git clone https://github.com/${env.USERNAME}/gcp.git"
                 }
               } 
             }
