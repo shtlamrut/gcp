@@ -2,7 +2,7 @@
 // engine version can be defined on secret, job, folder or global.
 // the default is engine version 2 unless otherwise specified globally.
 def secrets = [
-  [path: 'secret/data/devops/jenkins/github', engineVersion: 2, secretValues: [
+  [path: 'secret/devops/jenkins/github', engineVersion: 2, secretValues: [
   [envVar: 'USERNAME', vaultKey: 'username'],
   [envVar: 'PASSWORD', vaultKey: 'password'] ]]
 ]
