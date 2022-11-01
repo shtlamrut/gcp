@@ -1,116 +1,66 @@
-apiVersion: "v1"
-kind: "Pod"
+apiVersion: v1
+kind: Pod
 metadata:
-  annotations:
-    buildUrl: "http://jenkins.jenkins.svc.cluster.local/job/vault-demo/9/"
-    runUrl: "job/vault-demo/9/"
   labels:
-    jenkins/kube-default: "true"
-    app: "jenkins"
-    component: "agent"
-    jenkins/jenkins-jenkins-agent: "true"
-    jenkins/label-digest: "dd63ec6749967bfef693b81c8f0811776e6de648"
-    jenkins/label: "vault-demo_9-spqnc"
-  name: "vault-demo-9-spqnc-zc90w-mh7gz"
-  namespace: "jenkins"
+    jenkins/kube-default: true
+    app: jenkins
+    component: agent
 spec:
+  volumes:
+  - name: sharedvolume
+    emptyDir: {}
+  - name: docker-socket
+    emptyDir: {}
+  containers:
+  - name: gcloud
+    image: google/cloud-sdk:latest
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - name: sharedvolume
+      mountPath: /root/.docker
+    - name: docker-socket
+      mountPath: /var/run
+  - name: kubectl
+    image: gcr.io/cloud-builders/kubectl
+    command:
+    - cat
+    tty: true
+  - name: docker
+    image: docker:19.03.1
+    command:
+    - sleep
+    args:
+    - 99d
+    volumeMounts:
+    - name: docker-socket
+      mountPath: /var/run
+    - name: sharedvolume
+      mountPath: /root/.docker  
+  - name: docker-daemon
+    image: docker:19.03.1-dind
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: docker-socket
+      mountPath: /var/run
+    - name: sharedvolume
+      mountPath: /root/.docker 
+  serviceAccountName: "cd-jenkins"    
+  nodeSelector:
+    jk_role: slave
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-          - key: "jk_role"
-            operator: "In"
+          - key: jk_role
+            operator: In
             values:
-            - "slave"
-  containers:
-  - command:
-    - "cat"
-    image: "google/cloud-sdk:latest"
-    name: "gcloud"
-    tty: true
-    volumeMounts:
-    - mountPath: "/root/.docker"
-      name: "sharedvolume"
-    - mountPath: "/var/run"
-      name: "docker-socket"
-    - mountPath: "/home/jenkins/agent"
-      name: "workspace-volume"
-      readOnly: false
-  - command:
-    - "cat"
-    image: "gcr.io/cloud-builders/kubectl"
-    name: "kubectl"
-    tty: true
-    volumeMounts:
-    - mountPath: "/home/jenkins/agent"
-      name: "workspace-volume"
-      readOnly: false
-  - args:
-    - "99d"
-    command:
-    - "sleep"
-    image: "docker:19.03.1"
-    name: "docker"
-    volumeMounts:
-    - mountPath: "/var/run"
-      name: "docker-socket"
-    - mountPath: "/root/.docker"
-      name: "sharedvolume"
-    - mountPath: "/home/jenkins/agent"
-      name: "workspace-volume"
-      readOnly: false
-  - image: "docker:19.03.1-dind"
-    name: "docker-daemon"
-    securityContext:
-      privileged: true
-    volumeMounts:
-    - mountPath: "/var/run"
-      name: "docker-socket"
-    - mountPath: "/root/.docker"
-      name: "sharedvolume"
-    - mountPath: "/home/jenkins/agent"
-      name: "workspace-volume"
-      readOnly: false
-  - env:
-    - name: "JENKINS_SECRET"
-      value: "********"
-    - name: "JENKINS_AGENT_NAME"
-      value: "vault-demo-9-spqnc-zc90w-mh7gz"
-    - name: "JENKINS_WEB_SOCKET"
-      value: "true"
-    - name: "JENKINS_NAME"
-      value: "vault-demo-9-spqnc-zc90w-mh7gz"
-    - name: "JENKINS_AGENT_WORKDIR"
-      value: "/home/jenkins/agent"
-    - name: "JENKINS_URL"
-      value: "http://jenkins.jenkins.svc.cluster.local/"
-    image: "jenkins/inbound-agent:4.11-1-jdk11"
-    name: "jnlp"
-    resources:
-      limits: {}
-      requests:
-        memory: "256Mi"
-        cpu: "100m"
-    volumeMounts:
-    - mountPath: "/home/jenkins/agent"
-      name: "workspace-volume"
-      readOnly: false
-  nodeSelector:
-    jk_role: "slave"
-  restartPolicy: "Never"
-  serviceAccountName: "cd-jenkins"
+            - slave
   tolerations:
-  - effect: "NoSchedule"
-    key: "jk_role"
+  - key: "jk_role"
     operator: "Equal"
     value: "slave"
-  volumes:
-  - emptyDir:
-      medium: ""
-    name: "workspace-volume"
-  - emptyDir: {}
-    name: "sharedvolume"
-  - emptyDir: {}
-    name: "docker-socket"
-
+    effect: "NoSchedule"
