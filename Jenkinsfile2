@@ -17,7 +17,7 @@ def configuration = [vaultUrl: 'http://vault.hashi-vault.svc.cluster.local:8200'
 pipeline {
     agent {
         kubernetes {
-            defaultContainer 'shell'
+            defaultContainer 'jnlp'
             yamlFile 'pod-template-sameCluster.yaml'
         }
     }
