@@ -86,7 +86,7 @@ spec:
         script{
       git(
         url: 'https://github.com/sandeshtamboli123/gcp.git',
-        credentialsId: 'sandesh-github-pat',
+        credentialsId: 'github-pat-sandesh-vault',
         branch: 'main'
         )
         }
