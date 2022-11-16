@@ -4,7 +4,7 @@ def secrets = [
     [envVar: 'PASSWORD', vaultKey: 'password'],
     ]],
 ]
-def configuration = [vaultUrl: 'http://vault.hashi-vault.svc.cluster.local:8200',  vaultCredentialId: 'vault-approle', engineVersion: 2]
+def configuration = [vaultUrl: 'https://vault.default.svc.cluster.local:8200',  vaultCredentialId: 'vault-approle', engineVersion: 2]
                       
 pipeline {
     agent any
