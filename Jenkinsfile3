@@ -1,10 +1,10 @@
 def secrets = [
-  [path: 'secret/jenkins/github', engineVersion: 1, secretValues: [
+  [path: 'secret/jenkins/github', engineVersion: 2, secretValues: [
     [envVar: 'USERNAME', vaultKey: 'username'],
     [envVar: 'PASSWORD', vaultKey: 'password'],
     ]],
 ]
-def configuration = [vaultUrl: 'http://vault.default.svc.cluster.local:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
+def configuration = [vaultUrl: 'http://vault.default.svc.cluster.local:8200',  vaultCredentialId: 'vault-approle', engineVersion: 2]
                       
 pipeline {
     agent any
