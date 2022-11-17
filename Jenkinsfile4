@@ -21,9 +21,9 @@ pipeline {
          stage('Push Docker Image to dockerhub') {
             steps {
 				container ('docker') {
-#				   sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'	
+				   #sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'	
                    sh 'docker push docker.io/mynamesandesh/jenkins-argocd:$BUILD_NUMBER'
-#				   sh 'docker logout'
+				   #sh 'docker logout'
                 }
             }
          }  
