@@ -1,6 +1,10 @@
 pipeline {
-     agent any
-
+     agent {
+        kubernetes {
+            defaultContainer 'jnlp'
+            yamlFile '/home/sandesht/cadent-gke/demo1/gke-jk-controlplane/jenkins/jenkins.yaml'
+        }
+    }
      stages {     
          stage('Docker build and tag') {
             steps {
