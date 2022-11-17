@@ -21,11 +21,10 @@ pipeline {
                 }
             }
          }
-         stage('made changes in deployment manifest file') {
-			steps {
-	            sh "sed -i 's/jenkins-argocd:latest/jenkins-argocd:${env.BUILD_NUMBER}/g' demo/deployment.yaml"
-            }
-		}	
-	 } 
+         stage('Trigger manifest update') {
+			 echo "Triggering manifest upgate job"
+			 build job: 'updatemanifest',parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+         }
+	}	 
 } 
 
