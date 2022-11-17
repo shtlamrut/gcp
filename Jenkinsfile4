@@ -8,19 +8,23 @@ pipeline {
      stages {     
          stage('Docker build and tag') {
             steps {
+			  script {	
 				container ('docker') {
                     myapp = docker.build("mynamesandesh/jenkins-argocd:${env.BUILD_ID}")
                 }
+			  }	
             }
          }
          stage('Push Docker Image to dockerhub') {
             steps {
+			  script {	
 				container ('docker') {
                       docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
                             myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
                     }
                 }
+			  }	
             }  
          }
          stage('made changes in deployment manifest file') {
