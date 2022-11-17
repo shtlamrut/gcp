@@ -5,6 +5,10 @@ pipeline {
             yamlFile 'jenkins.yaml'
         }
     }
+     environment {
+		 dockerhub=credentials('dockerHub')
+     }		 
+
      stages {     
          stage('Docker build and tag') {
             steps {
@@ -17,10 +21,9 @@ pipeline {
          stage('Push Docker Image to dockerhub') {
             steps {
 				container ('docker') {
-              withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
-                sh 'docker push mynamesandesh/jenkins-argocd:$BUILD_NUMBER'
+				   sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'	
+                   sh 'docker push mynamesandesh/jenkins-argocd:$BUILD_NUMBER'
                 }
-		    	}
             }
          }  
          stage('made changes in deployment manifest file') {
