@@ -17,9 +17,11 @@ pipeline {
          stage('Push Docker Image to dockerhub') {
             steps {
 				container ('docker') {
-                    sh 'docker push mynamesandesh/jenkins-argocd:$BUILD_NUMBER'
+              withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
+                sh 'docker push mynamesandesh/jenkins-argocd:$BUILD_NUMBER'
                 }
-			}	
+		    	}
+            }
          }  
          stage('made changes in deployment manifest file') {
 			steps {
