@@ -9,17 +9,21 @@ pipeline {
          stage('Docker build and tag') {
             steps {
 				container ('docker') {
-                  sh 'docker build -t jenkins-argocd:latest .' 
-                  sh 'docker tag jenkins-argocd mynamesandesh/jenkins-argocd:$BUILD_NUMBER'
+                  script {
+                    myapp = docker.build("mynamesandesh/jenkins-argocd:${env.BUILD_ID}")
+                  }
                 }
             }
          }
          stage('Push Docker Image to dockerhub') {
             steps {
 				container ('docker') {
-			    	withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
-					  sh 'docker push  mynamesandesh/jenkins-argocd:$BUILD_NUMBER'
-                    } 
+			       script {
+                      docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                            myapp.push("latest")
+                            myapp.push("${env.BUILD_ID}")
+                    }
+                   }
                 }
             }  
          }
