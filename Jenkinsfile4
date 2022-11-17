@@ -15,16 +15,12 @@ pipeline {
 				container ('docker') {
                     sh 'docker build -t jenkins-argocd:latest .' 
                     sh 'docker tag jenkins-argocd mynamesandesh/jenkins-argocd:$BUILD_NUMBER'
+					sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
+					sh 'docker push docker.io/mynamesandesh/jenkins-argocd:$BUILD_NUMBER'
+                    sh 'docker logout'
                 }
             }
          }
-         stage('Push Docker Image to dockerhub') {
-            steps {
-				container ('docker') {	
-                   sh 'docker push docker.io/mynamesandesh/jenkins-argocd:$BUILD_NUMBER'
-                }
-            }
-         }  
          stage('made changes in deployment manifest file') {
 			steps {
 	            sh "sed -i 's/jenkins-argocd:latest/jenkins-argocd:${env.BUILD_NUMBER}/g' demo/deployment.yaml"
