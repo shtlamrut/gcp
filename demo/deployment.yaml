@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: hello
-          image: gcr.io/devops-practice-277006/cd-jk-upgrade/sample-app     
+          image: docker.io/mynamesandesh/jenkins-argocd:$BUILD_NUMBER     
           imagePullPolicy: Always
           ports:
           - containerPort: 5000
