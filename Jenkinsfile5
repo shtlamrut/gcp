@@ -7,4 +7,4 @@ node {
 	stage('Build image') {
 		app = docker.build("mynamesandesh/jenkins-argocd")
 	}
-
+}
