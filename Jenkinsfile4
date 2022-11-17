@@ -2,7 +2,7 @@ pipeline {
      agent {
         kubernetes {
             defaultContainer 'jnlp'
-            yamlFile '/home/sandesht/cadent-gke/demo1/gke-jk-controlplane/jenkins/jenkins.yaml'
+            yamlFile 'jenkins.yaml'
         }
     }
      stages {     
