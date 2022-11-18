@@ -24,4 +24,4 @@ spec:
       hostPath:
         path: /root/.m2
     - name: sharedvolume
-       emptyDir: {}
+        emptyDir: {}
