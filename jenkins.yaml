@@ -13,7 +13,9 @@ spec:
       privileged: true
       volumeMounts:
         - name: dockersock
-          mountPath: /var/run/docker.sock       
+          mountPath: /var/run/docker.sock  
+        - name: sharedvolume
+          mountPath: /root/.docker      
   volumes:
     - name: dockersock
       hostPath:
@@ -21,3 +23,5 @@ spec:
     - name: m2
       hostPath:
         path: /root/.m2
+    - name: sharedvolume
+       emptyDir: {}
