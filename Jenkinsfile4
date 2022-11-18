@@ -7,7 +7,8 @@ pipeline {
     }
      environment {
 		 dockerhub=credentials('dockerHub')
-         ENV = {'qa', 'prod'}
+         ENV1 = 'qa'
+         ENV2 = 'prod'
      }		 
 
      stages {     
@@ -15,7 +16,7 @@ pipeline {
             when {
                 allOf {
                     branch "main"
-                    environment(name: "ENV", value: "qa")
+                    environment(name: "ENV1", value: "qa")
                 }
             }
             steps {
