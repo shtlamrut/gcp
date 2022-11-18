@@ -7,10 +7,17 @@ pipeline {
     }
      environment {
 		 dockerhub=credentials('dockerHub')
+         ENV = {'qa', 'prod'}
      }		 
 
      stages {     
          stage('Docker build and tag') {
+            when {
+                allOf {
+                    branch "main"
+                    environment(name: "ENV", value: "qa")
+                }
+            }
             steps {
 				container ('docker') {
                     sh 'docker build -t jenkins:latest .' 
