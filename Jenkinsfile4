@@ -14,7 +14,7 @@ pipeline {
             steps {
 				container ('docker') {
                     sh 'docker build -t jenkins:latest .' 
-                    sh 'docker tag jenkins mynamesandesh/jenkins:$BUILD_NUMBER'
+                    sh 'docker tag jenkins shtlamrut/jenkins:$BUILD_NUMBER'
 					sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
 					sh 'docker push docker.io/shtlamrut/jenkins:$BUILD_NUMBER'
                     sh 'docker logout'
