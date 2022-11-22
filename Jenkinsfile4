@@ -24,7 +24,7 @@ pipeline {
          stage('Trigger manifest update') {
 		   steps {	 
 			 echo "Triggering manifest upgate job"
-			 build job: 'argocd-jenkins',parameters: [string(name: 'DOCKERTAG', value: "${env.BUILD_NUMBER}")]
+			 build job: 'updatemanifest',parameters: [string(name: 'DOCKERTAG', value: "${env.BUILD_NUMBER}")]
            }
 		 }  
 	}	 
